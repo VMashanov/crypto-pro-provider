@@ -1,0 +1,7 @@
+# nodejs
+- src: https://github.com/feksai/ansible-role-nodejs
+  name: nodejs
+
+# ntp
+- src: https://github.com/geerlingguy/ansible-role-ntp
+  name: ntp
