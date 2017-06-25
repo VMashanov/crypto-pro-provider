@@ -4,7 +4,7 @@
   "description": "Provides methods for signing xml of requests for SMEV2 and SMEV3",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "build:dev": "node_modules/.bin/webpack --bail --progress"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,14 @@
     "cadesplugin"
   ],
   "author": "Vitaly Mashanov",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "es6-promise": "^4.1.0",
+    "webpack": "^3.0.0"
+  }
 }
