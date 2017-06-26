@@ -2,3 +2,4 @@
 cm/roles
 .idea
 node_modules
+*.log
