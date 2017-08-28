@@ -1,6 +1,6 @@
 {
   "name": "crypto-pro-provider",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Provides methods for signing xml of requests for SMEV2 and SMEV3",
   "main": "index.js",
   "repository": {
