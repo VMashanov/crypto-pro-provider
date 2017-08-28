@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Install apt packages
+      apt:
+        name: '{{ item }}'
+        update_cache: yes
+      with_items:
+        - git
+        - vim
+        - mc
+        - build-essential
+
+    - name: Add autofollow
+      lineinfile:
+        dest: "/home/vagrant/.bashrc"
+        regexp: "^cd ~/{{ project_name }}"
+        line: "cd ~/{{ project_name }}"
+
+  roles:
+    - role: ntp
+    - role: nodejs

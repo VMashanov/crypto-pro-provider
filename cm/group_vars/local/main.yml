@@ -1,0 +1,5 @@
+---
+# nodejs version to install.
+nodejs_version: "v6.11.0"
+
+project_name: 'crypto-pro-provider'
