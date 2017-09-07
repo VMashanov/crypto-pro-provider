@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "Provides methods for signing xml of requests for SMEV2 and SMEV3",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/VMashanov/crypto-pro-provider.git"
-  },
+  "repository": "https://github.com/VMashanov/crypto-pro-provider.git",
   "keywords": [
     "crypto-pro",
     "cadesplugin"
   ],
   "author": "Vitaly Mashanov",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build:docs": "./node_modules/.bin/jsdoc index.js --destination docs"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.5.4"
+  }
 }
