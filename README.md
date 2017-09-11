@@ -7,4 +7,22 @@ You can read documentation [here](https://vmashanov.github.io/crypto-pro-provide
 
 ## Usage
 
+- Import module;
 
+``` javascript
+import CryptoProProvide from 'crypto-pro-provider';
+```
+
+- First, you need select certificate. For it use method `certificates`;
+
+``` javascript
+  CryptoProProvide.certificates()
+    .then((certificates) => {
+      // list of certificates
+    })
+    .catch((error) => {
+      // error
+    });
+```
+
+Signature for SMEV 2:
