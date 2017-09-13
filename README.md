@@ -26,3 +26,22 @@ import CryptoProProvide from 'crypto-pro-provider';
 ```
 
 Signature for SMEV 2:
+
+- Sign your message;
+
+``` javascript
+  // thumbprint - hash of the before selected certificate
+  // base64 - message encoded to base64
+  CryptoProProvide.sign(thumbprint, base64)
+    .then((signature) => {
+      // signed message
+    })
+    .catch((error) => {
+      // error
+    });
+```
+
+Signature for SMEV 3:
+
+Signing message for SMEV 3 more difficult, than for SMEV 2, so you should have server-side for some operations.
+
