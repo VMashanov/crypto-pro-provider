@@ -45,3 +45,31 @@ Signature for SMEV 3:
 
 Signing message for SMEV 3 more difficult, than for SMEV 2, so you should have server-side for some operations.
 
+Before signing your message by `crypto-pro-provider`, you should does several actions.
+
+- Sign your message by crypto server;
+- From received signature take node `SignedInfo`;
+- Canonicalize `SignedInfo` (http://www.w3.org/2001/10/xml-exc-c14n#);
+
+Then canonicalized node send to client-side and sign by `crypto-pro-provider`:
+
+``` javascript
+  // thumbprint - hash of the before selected certificate
+  // base64 - message encoded to base64
+  CryptoProProvide.paramsForDetachedSignature(thumbprint, base64)
+    .then((object) => {
+      // {
+      //   signature_value: <value of signature>,
+      //   x509certificate: <value of certificate>
+      // }
+    })
+    .catch((error) => {
+      // error
+    });
+```
+
+Received params substitute `SignatureValue` and `X509Certificate` nodes in signature template from first step.
+
+Save signature.
+
+That's all!
