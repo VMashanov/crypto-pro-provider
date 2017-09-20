@@ -1,37 +1,75 @@
-## Welcome to GitHub Pages
+# Crypto-pro-provider
+Provides methods for signing xml of requests for SMEV2 and SMEV3
 
-You can use the [editor on GitHub](https://github.com/VMashanov/crypto-pro-provider/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Documentation
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+You can read documentation [here](https://vmashanov.github.io/crypto-pro-provider/index.html)!
 
-### Markdown
+## Usage
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- Import module;
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+``` javascript
+import CryptoProProvide from 'crypto-pro-provider';
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+- First, you need to select certificate. For it use method `certificates`;
 
-### Jekyll Themes
+``` javascript
+  CryptoProProvide.certificates()
+    .then((certificates) => {
+      // list of certificates
+    })
+    .catch((error) => {
+      // error
+    });
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/VMashanov/crypto-pro-provider/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Signature for SMEV 2:
 
-### Support or Contact
+- Sign your message;
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+``` javascript
+  // thumbprint - hash of the before selected certificate
+  // base64 - message encoded to base64
+  CryptoProProvide.sign(thumbprint, base64)
+    .then((signature) => {
+      // signed message
+    })
+    .catch((error) => {
+      // error
+    });
+```
+
+Signature for SMEV 3:
+
+Signing message for SMEV 3 is more difficult, than for SMEV 2, so you should have server-side for some operations.
+
+Before signing your message by `crypto-pro-provider`, you should does several actions.
+
+- Sign your message by crypto server;
+- From received signature take node `SignedInfo`;
+- Canonicalize `SignedInfo` (http://www.w3.org/2001/10/xml-exc-c14n#);
+
+Then canonicalized node send to client-side and sign by `crypto-pro-provider`:
+
+``` javascript
+  // thumbprint - hash of the before selected certificate
+  // base64 - message encoded to base64
+  CryptoProProvide.paramsForDetachedSignature(thumbprint, base64)
+    .then((object) => {
+      // {
+      //   signature_value: <value of signature>,
+      //   x509certificate: <value of certificate>
+      // }
+    })
+    .catch((error) => {
+      // error
+    });
+```
+
+Received params substitute `SignatureValue` and `X509Certificate` nodes in signature template from the first step.
+
+Save signature.
+
+That's all!
