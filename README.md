@@ -13,7 +13,7 @@ You can read documentation [here](https://vmashanov.github.io/crypto-pro-provide
 import CryptoProProvide from 'crypto-pro-provider';
 ```
 
-- First, you need select certificate. For it use method `certificates`;
+- First, you need to select certificate. For it use method `certificates`;
 
 ``` javascript
   CryptoProProvide.certificates()
@@ -43,7 +43,7 @@ Signature for SMEV 2:
 
 Signature for SMEV 3:
 
-Signing message for SMEV 3 more difficult, than for SMEV 2, so you should have server-side for some operations.
+Signing message for SMEV 3 is more difficult, than for SMEV 2, so you should have server-side for some operations.
 
 Before signing your message by `crypto-pro-provider`, you should does several actions.
 
@@ -68,7 +68,7 @@ Then canonicalized node send to client-side and sign by `crypto-pro-provider`:
     });
 ```
 
-Received params substitute `SignatureValue` and `X509Certificate` nodes in signature template from first step.
+Received params substitute `SignatureValue` and `X509Certificate` nodes in signature template from the first step.
 
 Save signature.
 
