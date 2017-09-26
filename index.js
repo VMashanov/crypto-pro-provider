@@ -253,7 +253,7 @@ const CryptoProProvider = () => {
         store.Close();
 
         resolve({
-          signature_value: _reverse(_hexToString(signatureHex)),
+          signature_value: window.btoa(_reverse(_hexToString(signatureHex))),
           x509certificate: x509certificate
         });
       } catch (err) {
@@ -302,7 +302,7 @@ const CryptoProProvider = () => {
           yield store.Close();
 
           args[2]({
-            signature_value: _reverse(_hexToString(signatureHex)),
+            signature_value: window.btoa(_reverse(_hexToString(signatureHex))),
             x509certificate: x509certificate
           });
         } catch (err) {
@@ -360,7 +360,7 @@ const CryptoProProvider = () => {
       string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
     }
 
-    return window.btoa(string);
+    return string;
   }
 
   return {
