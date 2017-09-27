@@ -3,9 +3,16 @@
 ## [Unreleased]
 ### Added
  - Changelog;
+ - Method `_hexToBase64`;
 
 ### Changed
  - Readme;
+ - `Valid_from_date` => `valid_from_date`: parameters of certificates list in async version;
+ - `Valid_to_date` => `valid_to_date`: parameters of certificates list in async version;
+ - Documentation;
+
+### Deleted
+ - Methods `_reverse` and `_hexToString`;
 
 ## [1.0.4] - 2017-09-26
 ### Fixed
@@ -20,8 +27,8 @@
  - Bugs of detached signature;
 
 ### Changed
- - `Valid_from_date` => `valid_from_date` in objects from the certificates array;
- - `Valid_to_date` => `valid_to_date` in objects from the certificates array;
+ - `Valid_from_date` => `valid_from_date`: parameters of certificates list;
+ - `Valid_to_date` => `valid_to_date`: parameters of certificates list;
 
 ## [1.0.1] - 2017-09-07
 ### Added

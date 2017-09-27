@@ -109,8 +109,8 @@ const CryptoProProvider = () => {
                 subject_name: _convertStringToObj(yield certificate.SubjectName),
                 thumbprint: yield certificate.Thumbprint,
                 private_key: yield certificate.PrivateKey,
-                Valid_from_date: yield certificate.ValidFromDate,
-                Valid_to_date: yield certificate.ValidToDate,
+                valid_from_date: yield certificate.ValidFromDate,
+                valid_to_date: yield certificate.ValidToDate,
                 is_valid: yield is_valid.Result,
                 version: yield certificate.Version
               });
@@ -253,7 +253,7 @@ const CryptoProProvider = () => {
         store.Close();
 
         resolve({
-          signature_value: window.btoa(_reverse(_hexToString(signatureHex))),
+          signature_value: _hexToBase64(signatureHex, '', signatureHex.length - 2),
           x509certificate: x509certificate
         });
       } catch (err) {
@@ -302,7 +302,7 @@ const CryptoProProvider = () => {
           yield store.Close();
 
           args[2]({
-            signature_value: window.btoa(_reverse(_hexToString(signatureHex))),
+            signature_value: _hexToBase64(signatureHex, '', signatureHex.length - 2),
             x509certificate: x509certificate
           });
         } catch (err) {
@@ -331,36 +331,23 @@ const CryptoProProvider = () => {
 
   /**
    * @function
-   * @name _reverse
-   * @description Method for reversing a string
-   * @param {string} str - string for reversing
-   * @return {string} reverse string
-   */
-  const _reverse = (str) => {
-    let string = '';
-
-    for (let i = str.length - 1; i >= 0; i--) {
-      string += str.charAt(i);
-    }
-
-    return string;
-  }
-
-  /**
-   * @function
-   * @name _hexToString
+   * @name _hexToBase64
    * @description Method convert hex into base64
    * @param {string} hex - string for convert
+   * @param {string} str - empty string
+   * @param {string} index - start position of substring
    * @return {string} converted base64 string
    */
-  const _hexToString = (hex) => {
-    let string = '';
-
-    for (let i = 0; i < hex.length; i += 2) {
-      string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  const _hexToBase64 = (hex, str, index) => {
+    if (index >= 0) {
+      return _hexToBase64(
+        hex,
+        str + String.fromCharCode(parseInt(hex.substr(index, 2), 16)),
+        index - 2
+      )
     }
 
-    return string;
+    return window.btoa(str);
   }
 
   return {
