@@ -73,3 +73,7 @@ Received params substitute `SignatureValue` and `X509Certificate` nodes in signa
 Save signature.
 
 That's all!
+
+## Changelog
+
+Changelog [here](https://github.com/VMashanov/crypto-pro-provider/blob/develop/CHANGELOG.md)!
