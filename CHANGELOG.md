@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.1] - 2017-10-11
+### Fixed
+  - Error `certificate is not defined`;
+  - Readme;
+
 ## [1.1.0] - 2017-09-27
 ### Added
  - Changelog;
@@ -34,6 +39,7 @@
 ### Added
  - Documentation;
 
+[1.1.1]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.4...1.1.0
 [1.0.4]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.2...1.0.3
