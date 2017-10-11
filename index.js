@@ -143,14 +143,11 @@ const CryptoProProvider = () => {
         const store = cadesplugin.CreateObject("CAPICOM.Store");
         store.Open();
 
-        try {
-          const certificate = store
-                                .Certificates
-                                .Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, thumbprint)
-                                .Item(1);
-        } catch(_err) {
-          reject(`Сертификат не найден: ${thumbprint}`)
-        }
+        const certificate = store
+                              .Certificates
+                              .Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, thumbprint)
+                              .Item(1);
+
 
         const signer = cadesplugin.CreateObject("CAdESCOM.CPSigner");
         signer.Certificate = certificate;
@@ -189,15 +186,11 @@ const CryptoProProvider = () => {
           const store = yield cadesplugin.CreateObjectAsync("CAPICOM.Store");
           yield store.Open();
 
-          try {
-            const certificatesObj = yield store.Certificates;
-            const certificates = yield certificatesObj
-                                         .Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, args[0]);
+          const certificatesObj = yield store.Certificates;
+          const certificates = yield certificatesObj
+                                        .Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, args[0]);
 
-            const certificate = yield certificates.Item(1);
-          } catch (_err) {
-            args[3]("Сертификат не найден: " + args[0])
-          }
+          const certificate = yield certificates.Item(1);
 
           const signer = yield cadesplugin.CreateObjectAsync("CAdESCOM.CPSigner");
           yield signer.propset_Certificate(certificate);
