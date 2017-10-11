@@ -10,13 +10,13 @@ You can read documentation [here](https://vmashanov.github.io/crypto-pro-provide
 - Import module;
 
 ``` javascript
-import CryptoProProvide from 'crypto-pro-provider';
+import CryptoProProvider from 'crypto-pro-provider';
 ```
 
 - First, you need to select certificate. For it use method `certificates`;
 
 ``` javascript
-  CryptoProProvide.certificates()
+  CryptoProProvider.certificates()
     .then((certificates) => {
       // list of certificates
     })
@@ -32,7 +32,7 @@ Signature for SMEV 2:
 ``` javascript
   // thumbprint - hash of the before selected certificate
   // base64 - message encoded to base64
-  CryptoProProvide.sign(thumbprint, base64)
+  CryptoProProvider.sign(thumbprint, base64)
     .then((signature) => {
       // signed message
     })
@@ -56,7 +56,7 @@ Then canonicalized node send to client-side and sign by `crypto-pro-provider`:
 ``` javascript
   // thumbprint - hash of the before selected certificate
   // base64 - message encoded to base64
-  CryptoProProvide.paramsForDetachedSignature(thumbprint, base64)
+  CryptoProProvider.paramsForDetachedSignature(thumbprint, base64)
     .then((object) => {
       // {
       //   signature_value: <value of signature>,
