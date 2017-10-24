@@ -151,9 +151,9 @@ const CryptoProProvider = () => {
                               .Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, thumbprint)
                               .Item(1);
 
-
         const signer = cadesplugin.CreateObject("CAdESCOM.CPSigner");
         signer.Certificate = certificate;
+        signer.SigningTime = _convertDate();
 
         const signedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
         signedData.ContentEncoding = CADESCOM_BASE64_TO_BINARY;
@@ -197,6 +197,7 @@ const CryptoProProvider = () => {
 
           const signer = yield cadesplugin.CreateObjectAsync("CAdESCOM.CPSigner");
           yield signer.propset_Certificate(certificate);
+          yield signer.propset_SigningTime(_convertDate());
 
           const signedData = yield cadesplugin.CreateObjectAsync("CAdESCOM.CadesSignedData");
           yield signedData.propset_Content(args[1]);
@@ -344,6 +345,12 @@ const CryptoProProvider = () => {
     }
 
     return window.btoa(str);
+  }
+
+  const _convertDate = () => {
+    const date = new Date();
+    const navigator_name = navigator.appName;
+    return navigator_name == 'Microsoft Internet Explorer' ? date.getVarDate() : date
   }
 
   return {
