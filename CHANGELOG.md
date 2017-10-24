@@ -1,5 +1,9 @@
 # Changelog
 
+## [unreleased]
+### Added
+ - Search certificates in all accessible storages (#2);
+
 ## [1.1.1] - 2017-10-11
 ### Fixed
   - Error `certificate is not defined`;
@@ -39,6 +43,7 @@
 ### Added
  - Documentation;
 
+[unreleased]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.1...HEAD
 [1.1.1]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.4...1.1.0
 [1.0.4]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.3...1.0.4
