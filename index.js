@@ -364,6 +364,12 @@ const CryptoProProvider = () => {
     return window.btoa(str);
   }
 
+  /**
+   * @function
+   * @name _convertDate
+   * @description Method returns date
+   * @return {string} date
+   */
   const _convertDate = () => {
     const date = new Date();
     const navigator_name = navigator.appName;
