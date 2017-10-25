@@ -24,6 +24,9 @@ const CryptoProProvider = () => {
   // finding certificates from all storages
   const CADESCOM_CONTAINER_STORE = 100;
 
+  // time of signing
+  const CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME = 0;
+
   // provide access to cadesplugin_api
   const cadesplugin = window.cadesplugin;
 
@@ -151,9 +154,15 @@ const CryptoProProvider = () => {
                               .Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, thumbprint)
                               .Item(1);
 
-
         const signer = cadesplugin.CreateObject("CAdESCOM.CPSigner");
         signer.Certificate = certificate;
+
+        const signingTimeAttr = cadesplugin.CreateObject("CADESCOM.CPAttribute");
+        signingTimeAttr.Name = CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME;
+        signingTimeAttr.Value = _convertDate();
+
+        signer.AuthenticatedAttributes2.Add(signingTimeAttr);
+
 
         const signedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
         signedData.ContentEncoding = CADESCOM_BASE64_TO_BINARY;
@@ -196,9 +205,18 @@ const CryptoProProvider = () => {
           const certificate = yield certificates.Item(1);
 
           const signer = yield cadesplugin.CreateObjectAsync("CAdESCOM.CPSigner");
+
+          // Атрибут времени
+          const signingTimeAttr = yield cadesplugin.CreateObjectAsync("CADESCOM.CPAttribute");
+          yield signingTimeAttr.propset_Name(cadesplugin.CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
+          yield signingTimeAttr.propset_Value(_convertDate());
+          const attr = yield signer.AuthenticatedAttributes2;
+          yield attr.Add(signingTimeAttr);
+
           yield signer.propset_Certificate(certificate);
 
           const signedData = yield cadesplugin.CreateObjectAsync("CAdESCOM.CadesSignedData");
+          yield signedData.propset_ContentEncoding(CADESCOM_BASE64_TO_BINARY);
           yield signedData.propset_Content(args[1]);
 
           const signature = yield signedData.SignCades(signer, CADESCOM_CADES_BES, true);
@@ -344,6 +362,18 @@ const CryptoProProvider = () => {
     }
 
     return window.btoa(str);
+  }
+
+  /**
+   * @function
+   * @name _convertDate
+   * @description Method returns date
+   * @return {string} date
+   */
+  const _convertDate = () => {
+    const date = new Date();
+    const navigator_name = navigator.appName;
+    return navigator_name == 'Microsoft Internet Explorer' ? date.getVarDate() : date
   }
 
   return {
