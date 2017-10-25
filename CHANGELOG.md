@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0] - 2017-10-25
+### Added
+ - Search certificates in all accessible storages (#2);
+ - Attribute of time of signing into the simple signature (#3);
+
+### Fixed
+ - Attribute of content encoding in the simple signature;
+
 ## [1.1.1] - 2017-10-11
 ### Fixed
   - Error `certificate is not defined`;
@@ -39,6 +47,7 @@
 ### Added
  - Documentation;
 
+[1.2.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.4...1.1.0
 [1.0.4]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.3...1.0.4
