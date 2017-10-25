@@ -24,6 +24,9 @@ const CryptoProProvider = () => {
   // finding certificates from all storages
   const CADESCOM_CONTAINER_STORE = 100;
 
+  // time of signing
+  const CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME = 0;
+
   // provide access to cadesplugin_api
   const cadesplugin = window.cadesplugin;
 
@@ -153,7 +156,13 @@ const CryptoProProvider = () => {
 
         const signer = cadesplugin.CreateObject("CAdESCOM.CPSigner");
         signer.Certificate = certificate;
-        signer.SigningTime = _convertDate();
+
+        const signingTimeAttr = cadesplugin.CreateObject("CADESCOM.CPAttribute");
+        signingTimeAttr.Name = CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME;
+        signingTimeAttr.Value = _convertDate();
+
+        signer.AuthenticatedAttributes2.Add(signingTimeAttr);
+
 
         const signedData = cadesplugin.CreateObject("CAdESCOM.CadesSignedData");
         signedData.ContentEncoding = CADESCOM_BASE64_TO_BINARY;
@@ -196,10 +205,18 @@ const CryptoProProvider = () => {
           const certificate = yield certificates.Item(1);
 
           const signer = yield cadesplugin.CreateObjectAsync("CAdESCOM.CPSigner");
+
+          // Атрибут времени
+          const signingTimeAttr = yield cadesplugin.CreateObjectAsync("CADESCOM.CPAttribute");
+          yield signingTimeAttr.propset_Name(cadesplugin.CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
+          yield signingTimeAttr.propset_Value(_convertDate());
+          const attr = yield signer.AuthenticatedAttributes2;
+          yield attr.Add(signingTimeAttr);
+
           yield signer.propset_Certificate(certificate);
-          yield signer.propset_SigningTime(_convertDate());
 
           const signedData = yield cadesplugin.CreateObjectAsync("CAdESCOM.CadesSignedData");
+          yield signedData.propset_ContentEncoding(CADESCOM_BASE64_TO_BINARY);
           yield signedData.propset_Content(args[1]);
 
           const signature = yield signedData.SignCades(signer, CADESCOM_CADES_BES, true);
