@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2017-12-11
+### Added
+ - Method `digestValue`, which return checksum of data
+
 ## [1.2.0] - 2017-10-25
 ### Added
  - Search certificates in all accessible storages (#2);
@@ -47,6 +51,7 @@
 ### Added
  - Documentation;
 
+[1.3.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.0.4...1.1.0
