@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.0] - 2018-04-18
+### Changed
+ - Constant `CADESCOM_CURRENT_USER_STORE` instead `CADESCOM_CONTAINER_STORE`
+
 ## [1.3.0] - 2017-12-11
 ### Added
  - Method `digestValue`, which return checksum of data
@@ -51,6 +55,7 @@
 ### Added
  - Documentation;
 
+[2.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.0...1.1.1

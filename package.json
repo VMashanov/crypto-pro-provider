@@ -1,6 +1,6 @@
 {
   "name": "crypto-pro-provider",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Provides methods for signing xml of requests for SMEV2 and SMEV3",
   "main": "index.js",
   "repository": "https://github.com/VMashanov/crypto-pro-provider.git",
@@ -14,6 +14,6 @@
     "build:docs": "./node_modules/.bin/jsdoc index.js --destination docs"
   },
   "devDependencies": {
-    "jsdoc": "^3.5.4"
+    "jsdoc": "^3.5.5"
   }
 }
