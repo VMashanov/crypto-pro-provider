@@ -21,8 +21,8 @@ const CryptoProProvider = () => {
   // algorithm GOST R 34.11-94.
   const CADESCOM_HASH_ALGORITHM_CP_GOST_3411 = 100;
 
-  // finding certificates from all storages
-  const CADESCOM_CONTAINER_STORE = 100;
+  // finding certificates from a storage of current user
+  const CADESCOM_CURRENT_USER_STORE = 2
 
   // time of signing
   const CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME = 0;
@@ -52,7 +52,7 @@ const CryptoProProvider = () => {
 
       try {
         const store = cadesplugin.CreateObject("CAPICOM.Store");
-        store.Open(CADESCOM_CONTAINER_STORE);
+        store.Open(CADESCOM_CURRENT_USER_STORE);
 
         const certificates = store.Certificates;
         const count = certificates.Count;
@@ -99,7 +99,7 @@ const CryptoProProvider = () => {
 
         try {
           const store = yield cadesplugin.CreateObjectAsync("CAPICOM.Store");
-          yield store.Open(CADESCOM_CONTAINER_STORE);
+          yield store.Open(CADESCOM_CURRENT_USER_STORE);
 
           const certificates = yield store.Certificates;
           const count = yield certificates.Count;
