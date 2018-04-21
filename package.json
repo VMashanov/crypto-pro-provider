@@ -14,6 +14,12 @@
     "build:docs": "./node_modules/.bin/jsdoc index.js --destination docs"
   },
   "devDependencies": {
-    "jsdoc": "^3.5.5"
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "jsdoc": "^3.5.5",
+    "webpack": "^4.6.0"
   }
 }
