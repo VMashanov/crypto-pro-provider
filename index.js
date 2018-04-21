@@ -9,26 +9,8 @@ require('./vendor/cadesplugin_api');
 
 const CryptoProProvider = () => {
 
-  // signature type CAdES BES
-  const CADESCOM_CADES_BES = 1;
-
-  // data will reencoded from base64 into binary array
-  const CADESCOM_BASE64_TO_BINARY = 1;
-
-  // finding certificates by SHA1 hash
-  const CAPICOM_CERTIFICATE_FIND_SHA1_HASH = 0;
-
-  // algorithm GOST R 34.11-94.
-  const CADESCOM_HASH_ALGORITHM_CP_GOST_3411 = 100;
-
-  // finding certificates from a storage of current user
-  const CADESCOM_CURRENT_USER_STORE = 2
-
-  // time of signing
-  const CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME = 0;
-
   // provide access to cadesplugin_api
-  const cadesplugin = window.cadesplugin;
+  const { cadesplugin } = window;
 
   /**
    * @function
@@ -36,104 +18,7 @@ const CryptoProProvider = () => {
    * @description Checking, which method used by browser (Async or NPAPI)
    * @return {boolean}
    */
-  const isAsync = () => {
-    return cadesplugin.CreateObjectAsync ? true : false
-  }
-
-  /**
-   * @function
-   * @name certificates
-   * @description Provides access to loaded certificates for browser
-   * @return {array} list of certificates
-   */
-  const certificates = () => {
-    return new Promise((resolve, reject) => {
-      const certificates_array = new Array();
-
-      try {
-        const store = cadesplugin.CreateObject("CAPICOM.Store");
-        store.Open(CADESCOM_CURRENT_USER_STORE);
-
-        const certificates = store.Certificates;
-        const count = certificates.Count;
-
-        for (let i = 1; i <= count; i++) {
-          try {
-            const certificate = certificates.Item(i);
-            const is_valid = certificate.IsValid();
-
-            certificates_array.push({
-              issuer_name: _convertStringToObj(certificate.IssuerName),
-              serial_number: certificate.SerialNumber,
-              subject_name: _convertStringToObj(certificate.SubjectName),
-              thumbprint: certificate.Thumbprint,
-              valid_from_date: certificate.ValidFromDate,
-              valid_to_date: certificate.ValidToDate,
-              is_valid: is_valid.Result,
-              version: certificate.Version
-            });
-          } catch(err) {
-            console.error(err);
-          }
-        }
-
-        store.Close();
-
-        resolve(certificates_array);
-      } catch (err) {
-        reject(cadesplugin.getLastError(err));
-      }
-    });
-  }
-
-  /**
-   * @function
-   * @name certificatesAsync
-   * @description Provides access to loaded certificates for browser (Async)
-   * @return {array} list of certificates
-   */
-  const certificatesAsync = () => {
-    return new Promise((resolve, reject) => {
-      cadesplugin.async_spawn(function *(args) {
-        const certificates_array = new Array();
-
-        try {
-          const store = yield cadesplugin.CreateObjectAsync("CAPICOM.Store");
-          yield store.Open(CADESCOM_CURRENT_USER_STORE);
-
-          const certificates = yield store.Certificates;
-          const count = yield certificates.Count;
-
-          for (let i = 1; i <= count; i++) {
-            try {
-              const certificate = yield certificates.Item(i);
-              const is_valid = yield certificate.IsValid();
-
-              certificates_array.push({
-                issuer_name: _convertStringToObj(yield certificate.IssuerName),
-                serial_number: yield certificate.SerialNumber,
-                subject_name: _convertStringToObj(yield certificate.SubjectName),
-                thumbprint: yield certificate.Thumbprint,
-                private_key: yield certificate.PrivateKey,
-                valid_from_date: yield certificate.ValidFromDate,
-                valid_to_date: yield certificate.ValidToDate,
-                is_valid: yield is_valid.Result,
-                version: yield certificate.Version
-              });
-            } catch(err) {
-              console.error(err);
-            }
-          }
-
-          yield store.Close();
-
-          args[0](certificates_array);
-        } catch (err) {
-          args[1](cadesplugin.getLastError(err));
-        }
-      }, resolve, reject);
-    });
-  }
+  const isAsync = () => (cadesplugin.CreateObjectAsync ? true : false);
 
   /**
    * @function
