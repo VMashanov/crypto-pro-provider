@@ -2,10 +2,12 @@
  * @function
  * @name convertDate
  * @description Method returns date
+ * @param {string} navigatorName - name of frowser
+ * @param {Date} date - date now
  * @return {string} date
  */
-export const convertDate = (date = new Date()) =>
-  (navigator.appName === 'Microsoft Internet Explorer' ? date.getVarDate() : date);
+export const convertDate = (navigatorName, date = new Date()) =>
+  (navigatorName === 'Microsoft Internet Explorer' ? date.getVarDate() : date);
 
 /**
  * @function

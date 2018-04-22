@@ -28,7 +28,7 @@ export const sign = (thumbprint, base64) => {
 
       const signingTimeAttr = cadesplugin.CreateObject('CADESCOM.CPAttribute');
       signingTimeAttr.Name = CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME;
-      signingTimeAttr.Value = convertDate();
+      signingTimeAttr.Value = convertDate(navigator.appName);
 
       signer.AuthenticatedAttributes2.Add(signingTimeAttr);
 
@@ -50,7 +50,7 @@ export const sign = (thumbprint, base64) => {
       reject(cadesplugin.getLastError(err));
     }
   });
-}
+};
 
 /**
  * @function
@@ -77,7 +77,7 @@ export const signAsync = (thumbprint, base64) => {
         // Атрибут времени
         const signingTimeAttr = yield cadesplugin.CreateObjectAsync('CADESCOM.CPAttribute');
         yield signingTimeAttr.propset_Name(cadesplugin.CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
-        yield signingTimeAttr.propset_Value(convertDate());
+        yield signingTimeAttr.propset_Value(convertDate(navigator.appName));
         const attr = yield signer.AuthenticatedAttributes2;
         yield attr.Add(signingTimeAttr);
 
