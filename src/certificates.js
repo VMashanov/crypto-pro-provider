@@ -1,3 +1,6 @@
+import { cadesplugin, CADESCOM_CURRENT_USER_STORE } from './constants';
+import { convertStringToObj } from './utils';
+
 /**
  * @function
  * @name certificates
@@ -6,10 +9,10 @@
  */
 export const certificates = () => {
   return new Promise((resolve, reject) => {
-    const certificates_array = new Array();
+    const certificatesArray = [];
 
     try {
-      const store = cadesplugin.CreateObject("CAPICOM.Store");
+      const store = cadesplugin.CreateObject('CAPICOM.Store');
       store.Open(CADESCOM_CURRENT_USER_STORE);
 
       const certificates = store.Certificates;
@@ -18,26 +21,26 @@ export const certificates = () => {
       for (let i = 1; i <= count; i++) {
         try {
           const certificate = certificates.Item(i);
-          const is_valid = certificate.IsValid();
+          const isValid = certificate.IsValid();
 
-          certificates_array.push({
-            issuer_name: _convertStringToObj(certificate.IssuerName),
+          certificatesArray.push({
+            issuer_name: convertStringToObj(certificate.IssuerName),
             serial_number: certificate.SerialNumber,
-            subject_name: _convertStringToObj(certificate.SubjectName),
+            subject_name: convertStringToObj(certificate.SubjectName),
             thumbprint: certificate.Thumbprint,
             valid_from_date: certificate.ValidFromDate,
             valid_to_date: certificate.ValidToDate,
-            is_valid: is_valid.Result,
-            version: certificate.Version
+            is_valid: isValid.Result,
+            version: certificate.Version,
           });
-        } catch(err) {
+        } catch (err) {
           console.error(err);
         }
       }
 
       store.Close();
 
-      resolve(certificates_array);
+      resolve(certificatesArray);
     } catch (err) {
       reject(cadesplugin.getLastError(err));
     }
@@ -53,10 +56,10 @@ export const certificates = () => {
 export const certificatesAsync = () => {
   return new Promise((resolve, reject) => {
     cadesplugin.async_spawn(function *(args) {
-      const certificates_array = new Array();
+      const certificatesArray = [];
 
       try {
-        const store = yield cadesplugin.CreateObjectAsync("CAPICOM.Store");
+        const store = yield cadesplugin.CreateObjectAsync('CAPICOM.Store');
         yield store.Open(CADESCOM_CURRENT_USER_STORE);
 
         const certificates = yield store.Certificates;
@@ -65,18 +68,18 @@ export const certificatesAsync = () => {
         for (let i = 1; i <= count; i++) {
           try {
             const certificate = yield certificates.Item(i);
-            const is_valid = yield certificate.IsValid();
+            const isValid = yield certificate.IsValid();
 
-            certificates_array.push({
-              issuer_name: _convertStringToObj(yield certificate.IssuerName),
+            certificatesArray.push({
+              issuer_name: convertStringToObj(yield certificate.IssuerName),
               serial_number: yield certificate.SerialNumber,
-              subject_name: _convertStringToObj(yield certificate.SubjectName),
+              subject_name: convertStringToObj(yield certificate.SubjectName),
               thumbprint: yield certificate.Thumbprint,
               private_key: yield certificate.PrivateKey,
               valid_from_date: yield certificate.ValidFromDate,
               valid_to_date: yield certificate.ValidToDate,
-              is_valid: yield is_valid.Result,
-              version: yield certificate.Version
+              is_valid: yield isValid.Result,
+              version: yield certificate.Version,
             });
           } catch(err) {
             console.error(err);
@@ -85,10 +88,10 @@ export const certificatesAsync = () => {
 
         yield store.Close();
 
-        args[0](certificates_array);
+        args[0](certificatesArray);
       } catch (err) {
         args[1](cadesplugin.getLastError(err));
       }
     }, resolve, reject);
   });
-}
+};

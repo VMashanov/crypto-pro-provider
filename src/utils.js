@@ -29,7 +29,7 @@ export const convertStringToObj = (str) => {
 
 /**
  * @function
- * @name _hexToBase64
+ * @name hexToBase64
  * @description Method convert hex into base64
  * @param {string} hex - string for convert
  * @param {string} str - empty string

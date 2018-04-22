@@ -1,3 +1,9 @@
+import {
+  cadesplugin,
+  CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
+  CADESCOM_BASE64_TO_BINARY,
+} from './constants';
+
 /**
  * @function
  * @name digestValue
@@ -14,7 +20,7 @@ export const digestValue = (hashedData) => {
   oHashedData.Hash(hashedData);
 
   return oHashedData.Value;
-}
+};
 
 /**
  * @function
@@ -34,12 +40,12 @@ export const digestValueAsync = (hashedData) => {
         yield oHashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);
         yield oHashedData.Hash(args[0]);
 
-        const sHashValue = yield oHashedData.Value
+        const sHashValue = yield oHashedData.Value;
 
         args[1](sHashValue);
       } catch (err) {
         args[2](cadesplugin.getLastError(err));
       }
-    }, hashedData, resolve, reject)
-  })
-}
+    }, hashedData, resolve, reject);
+  });
+};
