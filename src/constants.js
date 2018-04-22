@@ -39,3 +39,10 @@ export const CADESCOM_CURRENT_USER_STORE = 2;
  * @description Time of signing
  */
 export const CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME = 0;
+
+/**
+ * @const
+ * @name cadesplugin
+ * @description Provide access to cadesplugin_api
+ */
+export const { cadesplugin } = window;
