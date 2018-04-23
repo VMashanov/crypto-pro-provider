@@ -7,8 +7,6 @@ import {
 import { digestValue, digestValueAsync } from './digest_value';
 import { cadesplugin } from './constants';
 
-require('../vendor/cadesplugin_api'); // Include with webpack
-
 /**
  * @class
  * @name CryptoProProvider
