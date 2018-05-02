@@ -15,8 +15,8 @@ import { convertDate } from './utils';
  * @param {string} base64 - xml document or file encoded to base64
  * @return {promise} signature
  */
-export const sign = (thumbprint, base64) => {
-  return new Promise((resolve, reject) => {
+export const sign = (thumbprint, base64) =>
+  new Promise((resolve, reject) => {
     try {
       const store = cadesplugin.CreateObject('CAPICOM.Store');
       store.Open();
@@ -50,7 +50,6 @@ export const sign = (thumbprint, base64) => {
       reject(cadesplugin.getLastError(err));
     }
   });
-};
 
 /**
  * @function

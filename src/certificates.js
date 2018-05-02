@@ -53,8 +53,8 @@ export const certificates = () => {
  * @description Provides access to loaded certificates for browser (Async)
  * @return {array} list of certificates
  */
-export const certificatesAsync = () => {
-  return new Promise((resolve, reject) => {
+export const certificatesAsync = () =>
+  new Promise((resolve, reject) => {
     cadesplugin.async_spawn(function *(args) {
       const certificatesArray = [];
 
@@ -82,7 +82,7 @@ export const certificatesAsync = () => {
               version: yield certificate.Version,
             });
           } catch(err) {
-            console.error(err);
+            console.error('====', err);
           }
         }
 
@@ -94,4 +94,3 @@ export const certificatesAsync = () => {
       }
     }, resolve, reject);
   });
-};

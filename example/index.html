@@ -5,8 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Crypto-pro-provider example</title>
+  <style>
+    html body {
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .container__main {
+      display: grid;
+    }
+
+    .header {
+      display: grid;
+      padding-left: 50px;
+      height: 150px;
+      border: 1px solid black;
+    }
+
+    .content {
+      height: 150px;
+      border: 1px solid yellow;
+    }
+
+    .footer {
+      height: 150px;
+      border: 1px solid red;
+    }
+  </style>
+  <script src="./bundle.js"></script>
 </head>
 <body>
-  Helllllo
+  <div class="container__main">
+    <div class="header">
+      <h1>Crypto-pro-provider</h1>
+      <h3>Example</h3>
+    </div>
+    <div class="content"></div>
+    <div class="footer"></div>
+  </div>
 </body>
 </html>

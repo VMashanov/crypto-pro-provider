@@ -2,10 +2,11 @@ import { certificates, certificatesAsync } from './certificates';
 import { sign, signAsync } from './sign';
 import {
   paramsForDetachedSignature,
-  paramsForDetachedSignatureAsync
+  paramsForDetachedSignatureAsync,
 } from './params_for_detached_signature';
 import { digestValue, digestValueAsync } from './digest_value';
 import { cadesplugin } from './constants';
+
 
 /**
  * @class
@@ -20,9 +21,9 @@ import { cadesplugin } from './constants';
  * @description Checking, which method used by browser (Async or NPAPI)
  * @return {boolean}
  */
-const isAsync = () => (cadesplugin.CreateObjectAsync ? true : false);
+const isAsync = () => (cadesplugin.CreateObjectAsync || false);
 
-module.exports = {
+export default {
   certificates: isAsync() ? certificatesAsync : certificates,
   sign: isAsync() ? signAsync : sign,
   paramsForDetachedSignature: isAsync() ? paramsForDetachedSignatureAsync : paramsForDetachedSignature,
