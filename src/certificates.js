@@ -1,5 +1,5 @@
 import { cadesplugin, CADESCOM_CURRENT_USER_STORE } from './constants';
-import { convertStringToObj } from './utils';
+import { convertStringToObj, fromAsync } from './utils';
 
 /**
  * @function
@@ -53,44 +53,54 @@ export const certificates = () => {
  * @description Provides access to loaded certificates for browser (Async)
  * @return {array} list of certificates
  */
-export const certificatesAsync = () =>
+
+export const certificatesAsync = async () =>
   new Promise((resolve, reject) => {
-    cadesplugin.async_spawn(function *(args) {
-      const certificatesArray = [];
-
-      try {
-        const store = yield cadesplugin.CreateObjectAsync('CAPICOM.Store');
-        yield store.Open(CADESCOM_CURRENT_USER_STORE);
-
-        const certificates = yield store.Certificates;
-        const count = yield certificates.Count;
-
-        for (let i = 1; i <= count; i++) {
-          try {
-            const certificate = yield certificates.Item(i);
-            const isValid = yield certificate.IsValid();
-
-            certificatesArray.push({
-              issuer_name: convertStringToObj(yield certificate.IssuerName),
-              serial_number: yield certificate.SerialNumber,
-              subject_name: convertStringToObj(yield certificate.SubjectName),
-              thumbprint: yield certificate.Thumbprint,
-              private_key: yield certificate.PrivateKey,
-              valid_from_date: yield certificate.ValidFromDate,
-              valid_to_date: yield certificate.ValidToDate,
-              is_valid: yield isValid.Result,
-              version: yield certificate.Version,
-            });
-          } catch(err) {
-            console.error('====', err);
-          }
-        }
-
-        yield store.Close();
-
-        args[0](certificatesArray);
-      } catch (err) {
-        args[1](cadesplugin.getLastError(err));
-      }
-    }, resolve, reject);
+    const store = await cadesplugin.CreateObjectAsync('CAPICOM.Store');
+    await store.Open(CADESCOM_CURRENT_USER_STORE);
+    const certificates = await store.Certificates;
+    console.log('========', certificates);
+    resolve(true);
   });
+
+// export const certificatesAsync = () =>
+//   new Promise((resolve, reject) => {
+//     cadesplugin.async_spawn(function *(args) {
+//       const certificatesArray = [];
+
+//       try {
+//         const store = yield cadesplugin.CreateObjectAsync('CAPICOM.Store');
+//         yield store.Open(CADESCOM_CURRENT_USER_STORE);
+
+//         const certificates = yield store.Certificates;
+//         const count = yield certificates.Count;
+
+//         for (let i = 1; i <= count; i++) {
+//           try {
+//             const certificate = yield certificates.Item(i);
+//             const isValid = yield certificate.IsValid();
+
+//             certificatesArray.push({
+//               issuer_name: convertStringToObj(yield certificate.IssuerName),
+//               serial_number: yield certificate.SerialNumber,
+//               subject_name: convertStringToObj(yield certificate.SubjectName),
+//               thumbprint: yield certificate.Thumbprint,
+//               private_key: yield certificate.PrivateKey,
+//               valid_from_date: yield certificate.ValidFromDate,
+//               valid_to_date: yield certificate.ValidToDate,
+//               is_valid: yield isValid.Result,
+//               version: yield certificate.Version,
+//             });
+//           } catch(err) {
+//             console.error('====', err);
+//           }
+//         }
+
+//         yield store.Close();
+
+//         args[0](certificatesArray);
+//       } catch (err) {
+//         args[1](cadesplugin.getLastError(err));
+//       }
+//     }, resolve, reject);
+//   });
