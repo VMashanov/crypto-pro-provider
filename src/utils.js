@@ -42,8 +42,3 @@ export const hexToBase64 = (hex, str, index) => {
 
   return window.btoa(str);
 };
-
-export const fromAsync = async (value) => {
-  const resultOfAsynchronousFunction = await value;
-  return resultOfAsynchronousFunction;
-};
