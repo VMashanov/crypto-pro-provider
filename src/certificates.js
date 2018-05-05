@@ -1,5 +1,5 @@
 import { cadesplugin, CADESCOM_CURRENT_USER_STORE } from './constants';
-import { convertStringToObj, fromAsync } from './utils';
+import { convertStringToObj } from './utils';
 
 /**
  * @function
@@ -47,6 +47,35 @@ export const certificates = () => {
   });
 };
 
+const objectifyCertificate = async (certificate) => {
+  const isValid = await certificate.IsValid();
+
+  const objectWithCertificate = {
+    issuerName: convertStringToObj(await certificate.IssuerName),
+    serialNumber: await certificate.SerialNumber,
+    subjectName: convertStringToObj(await certificate.SubjectName),
+    thumbprint: await certificate.Thumbprint,
+    privateKey: await certificate.PrivateKey,
+    validFromDate: await certificate.ValidFromDate,
+    validToDate: await certificate.ValidToDate,
+    isValid: await isValid.Result,
+    version: await certificate.Version,
+  };
+
+  return objectWithCertificate;
+};
+
+const collectListOfCertificats = async (certificates, amountOfCertificates, i, result = []) =>
+  (i > amountOfCertificates
+    ? result
+    : collectListOfCertificats(
+      certificates,
+      amountOfCertificates,
+      i + 1,
+      result.concat(await objectifyCertificate(await certificates.Item(i))),
+    )
+  );
+
 /**
  * @function
  * @name certificatesAsync
@@ -54,53 +83,13 @@ export const certificates = () => {
  * @return {array} list of certificates
  */
 
-export const certificatesAsync = async () =>
-  new Promise((resolve, reject) => {
-    const store = await cadesplugin.CreateObjectAsync('CAPICOM.Store');
-    await store.Open(CADESCOM_CURRENT_USER_STORE);
-    const certificates = await store.Certificates;
-    console.log('========', certificates);
-    resolve(true);
-  });
+export const certificatesAsync = async () => {
+  const store = await cadesplugin.CreateObjectAsync('CAPICOM.Store');
+  await store.Open(CADESCOM_CURRENT_USER_STORE);
+  const certificates = await store.Certificates;
+  const amountOfCertificates = await certificates.Count;
+  const arrayOfCertificates
+    = collectListOfCertificats(certificates, amountOfCertificates, 1);
 
-// export const certificatesAsync = () =>
-//   new Promise((resolve, reject) => {
-//     cadesplugin.async_spawn(function *(args) {
-//       const certificatesArray = [];
-
-//       try {
-//         const store = yield cadesplugin.CreateObjectAsync('CAPICOM.Store');
-//         yield store.Open(CADESCOM_CURRENT_USER_STORE);
-
-//         const certificates = yield store.Certificates;
-//         const count = yield certificates.Count;
-
-//         for (let i = 1; i <= count; i++) {
-//           try {
-//             const certificate = yield certificates.Item(i);
-//             const isValid = yield certificate.IsValid();
-
-//             certificatesArray.push({
-//               issuer_name: convertStringToObj(yield certificate.IssuerName),
-//               serial_number: yield certificate.SerialNumber,
-//               subject_name: convertStringToObj(yield certificate.SubjectName),
-//               thumbprint: yield certificate.Thumbprint,
-//               private_key: yield certificate.PrivateKey,
-//               valid_from_date: yield certificate.ValidFromDate,
-//               valid_to_date: yield certificate.ValidToDate,
-//               is_valid: yield isValid.Result,
-//               version: yield certificate.Version,
-//             });
-//           } catch(err) {
-//             console.error('====', err);
-//           }
-//         }
-
-//         yield store.Close();
-
-//         args[0](certificatesArray);
-//       } catch (err) {
-//         args[1](cadesplugin.getLastError(err));
-//       }
-//     }, resolve, reject);
-//   });
+  return arrayOfCertificates;
+};
