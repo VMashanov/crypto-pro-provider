@@ -7,8 +7,6 @@ import {
 import { digestValue, digestValueAsync } from './digest_value';
 import { cadesplugin } from './constants';
 
-console.log('----', cadesplugin);
-
 /**
  * @class
  * @name CryptoProProvider
