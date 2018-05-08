@@ -1,4 +1,7 @@
-import { certificates, certificatesAsync } from './certificates';
+import certificatesNPAPI from './npapi/certificates';
+import certificatesAsync from './async/certificates';
+
+
 import { sign, signAsync } from './sign';
 import {
   paramsForDetachedSignature,
@@ -23,7 +26,7 @@ import { cadesplugin } from './constants';
 const isAsync = () => (cadesplugin.CreateObjectAsync || false);
 
 export default {
-  certificates: isAsync() ? certificatesAsync : certificates,
+  certificates: isAsync() ? certificatesAsync : certificatesNPAPI,
   sign: isAsync() ? signAsync : sign,
   paramsForDetachedSignature: isAsync() ? paramsForDetachedSignatureAsync : paramsForDetachedSignature,
   digestValue: isAsync() ? digestValueAsync : digestValue,
