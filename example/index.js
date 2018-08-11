@@ -1,16 +1,22 @@
 import CryptoProProvider from '../src/index';
 
-const convertToBase64 = value => window.btoa(value);
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(getCertificates, 1500);
+});
 
-const getDataFromInput = () => {
-  const { value } = document.querySelector('.field');
-  return convertToBase64(value) || alert('You need to write any text!');
+const getCertificates = () =>
+  CryptoProProvider.certificates().then(certificates =>
+    injectListOfCertificates(certificates));
+
+const injectListOfCertificates = (certificates) => {
+  const parentElement = document.querySelector('.certificates__list');
+  buildListOfCertificates(certificates)
+    .map(node => parentElement.appendChild(node));
 };
 
-const sign = thumbprint =>
-  CryptoProProvider.sign(thumbprint, getDataFromInput()).then((signature) => {
-    document.querySelector('.result').innerHTML = signature;
-  });
+const buildListOfCertificates = certificates =>
+  certificates.reduce((result, certificate) =>
+    result.concat(buildCertificateItem(certificate)), []);
 
 const buildCertificateItem = (certificate) => {
   const div = document.createElement('div');
@@ -22,20 +28,14 @@ const buildCertificateItem = (certificate) => {
   return div;
 };
 
-const buildListOfCertificates = certificates =>
-  certificates.reduce((result, certificate) =>
-    result.concat(buildCertificateItem(certificate)), []);
+const sign = thumbprint =>
+  CryptoProProvider.sign(thumbprint, getDataFromInput()).then((signature) => {
+    document.querySelector('.result').innerHTML = signature;
+  });
 
-const injectListOfCertificates = (certificates) => {
-  const parentElement = document.querySelector('.certificates__list');
-  buildListOfCertificates(certificates)
-    .map(node => parentElement.appendChild(node));
+const getDataFromInput = () => {
+  const { value } = document.querySelector('.field');
+  return convertToBase64(value) || alert('You need to write any text!');
 };
 
-const getCertificates = () =>
-  CryptoProProvider.certificates().then(certificates =>
-    injectListOfCertificates(certificates));
-
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(getCertificates, 1000);
-});
+const convertToBase64 = value => window.btoa(value);
