@@ -7,30 +7,12 @@ import {
 /**
  * @function
  * @name digestValue
- * @description Method returns checksum of data that transmitted in the
- parameters
-  * @param {string} hashedData - string for checksum calculating
-  * @return {string} checksum of data
-  */
-export const digestValue = (hashedData) => {
-  const oHashedData = cadesplugin.CreateObject('CAdESCOM.HashedData');
-
-  oHashedData.Algorithm = CADESCOM_HASH_ALGORITHM_CP_GOST_3411;
-  oHashedData.DataEncoding = CADESCOM_BASE64_TO_BINARY;
-  oHashedData.Hash(hashedData);
-
-  return oHashedData.Value;
-};
-
-/**
- * @function
- * @name digestValueAsync
  * @description Method returns promise with checksum of data that
  * transmitted in the parameters
  * @param {string} hashedData - string for checksum calculating
  * @return {string} checksum of data
  */
-export const digestValueAsync = (hashedData) => {
+const digestValue = (hashedData) => {
   return new Promise((resolve, reject) => {
     cadesplugin.async_spawn(function *(args) {
       try {
@@ -49,3 +31,5 @@ export const digestValueAsync = (hashedData) => {
     }, hashedData, resolve, reject);
   });
 };
+
+export default digestValue;
