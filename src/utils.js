@@ -36,7 +36,7 @@ export const hexToBase64 = (hex, str, index) => {
     return hexToBase64(
       hex,
       str + String.fromCharCode(parseInt(hex.substr(index, 2), 16)),
-      index - 2
+      index - 2,
     );
   }
 
