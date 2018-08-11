@@ -10,56 +10,12 @@ import { convertDate } from './utils';
 /**
  * @function
  * @name sign
- * @description Signing xml documents or files
- * @param {string} thumbprint - hash of certificate
- * @param {string} base64 - xml document or file encoded to base64
- * @return {promise} signature
- */
-export const sign = (thumbprint, base64) =>
-  new Promise((resolve, reject) => {
-    try {
-      const store = cadesplugin.CreateObject('CAPICOM.Store');
-      store.Open();
-
-      const certificate = store.Certificates.Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, thumbprint).Item(1);
-
-      const signer = cadesplugin.CreateObject('CAdESCOM.CPSigner');
-      signer.Certificate = certificate;
-
-      const signingTimeAttr = cadesplugin.CreateObject('CADESCOM.CPAttribute');
-      signingTimeAttr.Name = CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME;
-      signingTimeAttr.Value = convertDate(navigator.appName);
-
-      signer.AuthenticatedAttributes2.Add(signingTimeAttr);
-
-
-      const signedData = cadesplugin.CreateObject('CAdESCOM.CadesSignedData');
-      signedData.ContentEncoding = CADESCOM_BASE64_TO_BINARY;
-      signedData.Content = base64;
-
-      try {
-        const signature = signedData.SignCades(signer, CADESCOM_CADES_BES, true);
-      } catch (err) {
-        reject(cadesplugin.getLastError(err));
-      }
-
-      store.Close();
-
-      resolve(signature);
-    } catch (err) {
-      reject(cadesplugin.getLastError(err));
-    }
-  });
-
-/**
- * @function
- * @name signAsync
  * @description Signing xml documents or files (Async)
  * @param {string} thumbprint - hash of certificate
  * @param {string} base64 - xml document or file encoded to base64
  * @return {promise} signature
  */
-export const signAsync = (thumbprint, base64) => {
+const sign = (thumbprint, base64) => {
   return new Promise((resolve, reject) => {
     cadesplugin.async_spawn(function *(args) {
       try {
@@ -97,3 +53,5 @@ export const signAsync = (thumbprint, base64) => {
     }, thumbprint, base64, resolve, reject);
   });
 };
+
+export default sign;
