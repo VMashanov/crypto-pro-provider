@@ -1,5 +1,5 @@
-import { cadesplugin, CADESCOM_CURRENT_USER_STORE } from '../constants';
-import { convertStringToObj } from '../utils';
+import { cadesplugin, CADESCOM_CURRENT_USER_STORE } from './constants';
+import { convertStringToObj } from './utils';
 
 const objectifyCertificate = async (certificate) => {
   const isValid = await certificate.IsValid();
