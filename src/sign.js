@@ -1,5 +1,5 @@
 import {
-  cadesplugin,
+  CreateObjectAsync,
   CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
   CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME,
   CADESCOM_BASE64_TO_BINARY,
@@ -15,43 +15,38 @@ import { convertDate } from './utils';
  * @param {string} base64 - xml document or file encoded to base64
  * @return {promise} signature
  */
-const sign = (thumbprint, base64) => {
-  return new Promise((resolve, reject) => {
-    cadesplugin.async_spawn(function *(args) {
-      try {
-        const store = yield cadesplugin.CreateObjectAsync('CAPICOM.Store');
-        yield store.Open();
+const sign = async (thumbprint, base64) => {
+  const store = await CreateObjectAsync('CAPICOM.Store');
+  await store.Open();
 
-        const certificatesObj = yield store.Certificates;
-        const certificates = yield certificatesObj.Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, args[0]);
+  const certificatesObj = await store.Certificates;
+  const certificates = await certificatesObj.Find(
+    CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
+    thumbprint,
+  );
 
-        const certificate = yield certificates.Item(1);
+  const certificate = await certificates.Item(1);
 
-        const signer = yield cadesplugin.CreateObjectAsync('CAdESCOM.CPSigner');
+  const signer = await CreateObjectAsync('CAdESCOM.CPSigner');
 
-        // Атрибут времени
-        const signingTimeAttr = yield cadesplugin.CreateObjectAsync('CADESCOM.CPAttribute');
-        yield signingTimeAttr.propset_Name(cadesplugin.CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
-        yield signingTimeAttr.propset_Value(convertDate(navigator.appName));
-        const attr = yield signer.AuthenticatedAttributes2;
-        yield attr.Add(signingTimeAttr);
+  // Атрибут времени
+  const signingTimeAttr = await CreateObjectAsync('CADESCOM.CPAttribute');
+  await signingTimeAttr.propset_Name(CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
+  await signingTimeAttr.propset_Value(convertDate(navigator.appName));
+  const attr = await signer.AuthenticatedAttributes2;
+  await attr.Add(signingTimeAttr);
 
-        yield signer.propset_Certificate(certificate);
+  await signer.propset_Certificate(certificate);
 
-        const signedData = yield cadesplugin.CreateObjectAsync('CAdESCOM.CadesSignedData');
-        yield signedData.propset_ContentEncoding(CADESCOM_BASE64_TO_BINARY);
-        yield signedData.propset_Content(args[1]);
+  const signedData = await CreateObjectAsync('CAdESCOM.CadesSignedData');
+  await signedData.propset_ContentEncoding(CADESCOM_BASE64_TO_BINARY);
+  await signedData.propset_Content(base64);
 
-        const signature = yield signedData.SignCades(signer, CADESCOM_CADES_BES, true);
+  const signature = await signedData.SignCades(signer, CADESCOM_CADES_BES, true);
 
-        yield store.Close();
+  await store.Close();
 
-        args[2](signature);
-      } catch (err) {
-        args[3](cadesplugin.getLastError(err));
-      }
-    }, thumbprint, base64, resolve, reject);
-  });
+  return signature;
 };
 
 export default sign;
