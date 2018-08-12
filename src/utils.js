@@ -1,3 +1,8 @@
+import {
+  CreateObjectAsync,
+  CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
+} from './constants';
+
 /**
  * @function
  * @name convertDate
@@ -41,4 +46,26 @@ export const hexToBase64 = (hex, str, index) => {
   }
 
   return window.btoa(str);
+};
+
+/**
+ * @function
+ * @name getTargetCertificate
+ * @description Method returns certificate by thumbprint (Async)
+ * @param {string} thumbprint - hash of certificate
+ * @return {promise} certificate
+ */
+export const getTargetCertificate = async (thumbprint) => {
+  const store = await CreateObjectAsync('CAPICOM.Store');
+  await store.Open();
+
+  const certificatesObj = await store.Certificates;
+  const certificates = await certificatesObj.Find(
+    CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
+    thumbprint,
+  );
+
+  await store.Close();
+
+  return certificates.Item(1);
 };
