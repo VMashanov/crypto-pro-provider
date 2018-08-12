@@ -2,9 +2,11 @@ import {
   CreateObjectAsync,
   CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
   CADESCOM_BASE64_TO_BINARY,
-  CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
 } from './constants';
-import { hexToBase64 } from './utils';
+import {
+  hexToBase64,
+  getTargetCertificate,
+} from './utils';
 
 /**
  * @function
@@ -23,18 +25,7 @@ const paramsForDetachedSignature = async (thumbprint, base64) => {
 
   const calculatedHashedData = await hashedData;
 
-  const store = await CreateObjectAsync('CAPICOM.Store');
-
-  await store.Open();
-
-
-  const certificatesObj = await store.Certificates;
-  const certificates = await certificatesObj.Find(
-    CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
-    thumbprint,
-  );
-
-  const certificate = await certificates.Item(1);
+  const certificate = await getTargetCertificate(thumbprint);
 
   const x509certificate = await certificate.Export(0);
 
@@ -44,8 +35,6 @@ const paramsForDetachedSignature = async (thumbprint, base64) => {
     calculatedHashedData,
     certificate,
   );
-
-  await store.Close();
 
   return {
     signature_value: hexToBase64(signatureHex, '', signatureHex.length - 2),
