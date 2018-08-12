@@ -1,11 +1,13 @@
 import {
   CreateObjectAsync,
-  CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
   CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME,
   CADESCOM_BASE64_TO_BINARY,
   CADESCOM_CADES_BES,
 } from './constants';
-import { convertDate } from './utils';
+import {
+  convertDate,
+  getTargetCertificate,
+} from './utils';
 
 /**
  * @function
@@ -16,17 +18,7 @@ import { convertDate } from './utils';
  * @return {promise} signature
  */
 const sign = async (thumbprint, base64) => {
-  const store = await CreateObjectAsync('CAPICOM.Store');
-  await store.Open();
-
-  const certificatesObj = await store.Certificates;
-  const certificates = await certificatesObj.Find(
-    CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
-    thumbprint,
-  );
-
-  const certificate = await certificates.Item(1);
-
+  const certificate = await getTargetCertificate(thumbprint);
   const signer = await CreateObjectAsync('CAdESCOM.CPSigner');
 
   // Атрибут времени
@@ -42,11 +34,7 @@ const sign = async (thumbprint, base64) => {
   await signedData.propset_ContentEncoding(CADESCOM_BASE64_TO_BINARY);
   await signedData.propset_Content(base64);
 
-  const signature = await signedData.SignCades(signer, CADESCOM_CADES_BES, true);
-
-  await store.Close();
-
-  return signature;
+  return signedData.SignCades(signer, CADESCOM_CADES_BES, true);
 };
 
 export default sign;
