@@ -45,4 +45,4 @@ export const CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME = 0;
  * @name cadesplugin
  * @description Provide access to cadesplugin_api
  */
-export const { cadesplugin } = window;
+export const { cadesplugin: { CreateObjectAsync } } = window;
