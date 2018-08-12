@@ -21,8 +21,8 @@ export const convertDate = (navigatorName, date = new Date()) =>
  * @param {string} str - string for convert
  * @return {object} converted string
  */
-export const convertStringToObj =
-  str => str.split(', ').reduce((result, subString) => {
+export const convertStringToObj = str =>
+  str.split(', ').reduce((result, subString) => {
     const partsOfSubString = subString.split('=');
     return { ...result, [partsOfSubString[0]]: partsOfSubString[1] };
   }, {});
