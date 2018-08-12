@@ -1,5 +1,5 @@
 import {
-  cadesplugin,
+  CreateObjectAsync,
   CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
   CADESCOM_BASE64_TO_BINARY,
 } from './constants';
@@ -12,24 +12,14 @@ import {
  * @param {string} hashedData - string for checksum calculating
  * @return {string} checksum of data
  */
-const digestValue = (hashedData) => {
-  return new Promise((resolve, reject) => {
-    cadesplugin.async_spawn(function *(args) {
-      try {
-        const oHashedData = yield cadesplugin.CreateObjectAsync('CAdESCOM.HashedData');
+const digestValue = async (hashedData) => {
+  const oHashedData = await CreateObjectAsync('CAdESCOM.HashedData');
 
-        yield oHashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
-        yield oHashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);
-        yield oHashedData.Hash(args[0]);
+  await oHashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
+  await oHashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);
+  await oHashedData.Hash(hashedData);
 
-        const sHashValue = yield oHashedData.Value;
-
-        args[1](sHashValue);
-      } catch (err) {
-        args[2](cadesplugin.getLastError(err));
-      }
-    }, hashedData, resolve, reject);
-  });
+  return oHashedData.Value;
 };
 
 export default digestValue;
