@@ -1,5 +1,5 @@
 import {
-  cadesplugin,
+  CreateObjectAsync,
   CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
   CADESCOM_BASE64_TO_BINARY,
   CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
@@ -14,44 +14,43 @@ import { hexToBase64 } from './utils';
  * @param {string} base64 - SignedInfo of signature template encoded to base64
  * @return {promise} signature value and certificate value
  */
-const paramsForDetachedSignature = (thumbprint, base64) =>
-  new Promise((resolve, reject) => {
-    cadesplugin.async_spawn(function *(args) {
-      try {
-        const hashedData = yield cadesplugin.CreateObjectAsync('CAdESCOM.HashedData');
+const paramsForDetachedSignature = async (thumbprint, base64) => {
+  const hashedData = await CreateObjectAsync('CAdESCOM.HashedData');
 
-        yield hashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
-        yield hashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);
-        yield hashedData.Hash(args[1]);
+  await hashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
+  await hashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);
+  await hashedData.Hash(base64);
 
-        const hashed_data = yield hashedData;
+  const calculatedHashedData = await hashedData;
 
-        const store = yield cadesplugin.CreateObjectAsync('CAPICOM.Store');
+  const store = await CreateObjectAsync('CAPICOM.Store');
 
-        yield store.Open();
+  await store.Open();
 
 
-        const certificatesObj = yield store.Certificates;
-        const certificates = yield certificatesObj.Find(CAPICOM_CERTIFICATE_FIND_SHA1_HASH, args[0]);
+  const certificatesObj = await store.Certificates;
+  const certificates = await certificatesObj.Find(
+    CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
+    thumbprint,
+  );
 
-        const certificate = yield certificates.Item(1);
+  const certificate = await certificates.Item(1);
 
-        const x509certificate = yield certificate.Export(0);
+  const x509certificate = await certificate.Export(0);
 
-        const rawSignature = yield cadesplugin.CreateObjectAsync('CAdESCOM.RawSignature');
+  const rawSignature = await CreateObjectAsync('CAdESCOM.RawSignature');
 
-        const signatureHex = yield rawSignature.SignHash(hashed_data, certificate);
+  const signatureHex = await rawSignature.SignHash(
+    calculatedHashedData,
+    certificate,
+  );
 
-        yield store.Close();
+  await store.Close();
 
-        args[2]({
-          signature_value: hexToBase64(signatureHex, '', signatureHex.length - 2),
-          x509certificate,
-        });
-      } catch (err) {
-        args[3](cadesplugin.getLastError(err));
-      }
-    }, thumbprint, base64, resolve, reject);
-  });
+  return {
+    signature_value: hexToBase64(signatureHex, '', signatureHex.length - 2),
+    x509certificate,
+  };
+};
 
 export default paramsForDetachedSignature;
