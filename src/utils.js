@@ -69,3 +69,19 @@ export const getTargetCertificate = async (thumbprint) => {
 
   return certificates.Item(1);
 };
+
+/**
+ * @function
+ * @name injectToXML
+ * @description Method returns XML with injected signature value
+ *              and x509certificate
+ * @param {string} xml - detached signature template
+ * @param {string} signatureValue - signature value
+ * @param {string} x509certificate = value of certificate
+ * @return {string} transformed XML
+ */
+
+export const injectToXML = (xml, signatureValue, x509certificate) => {
+  console.log(xml, signatureValue, x509certificate);
+  return true;
+};
