@@ -80,8 +80,11 @@ export const getTargetCertificate = async (thumbprint) => {
  * @param {string} x509certificate = value of certificate
  * @return {string} transformed XML
  */
-
-export const injectToXML = (xml, signatureValue, x509certificate) => {
-  console.log(xml, signatureValue, x509certificate);
-  return true;
-};
+export const injectToXML = (xml, signatureValue, x509certificate) =>
+  xml.replace(
+    /<ds:SignatureValue>(.+)<\/ds:SignatureValue>/,
+    `<ds:SignatureValue>${signatureValue}</ds:SignatureValue>`,
+  ).replace(
+    /<ds:X509Certificate>(.+)<\/ds:X509Certificate>/,
+    `<ds:X509Certificate>${x509certificate}</ds:X509Certificate>`,
+  );
