@@ -5,6 +5,8 @@ import {
   injectToXML,
 } from '../src/utils';
 
+import fixtures from './fixtures/utils';
+
 describe('utils', () => {
   describe('#convertStringToObj', () => {
     test('should return object from string', () => {
@@ -19,13 +21,16 @@ describe('utils', () => {
 
   describe('#injectToXML', () => {
     test('should return transformed xml', () => {
-      const xml = '<tag></tag>';
       const signatureValue = '111';
       const x509certificate = '222';
 
-      const subject = injectToXML(xml, signatureValue, x509certificate);
+      const subject = injectToXML(
+        fixtures.injectToXML.xml,
+        signatureValue,
+        x509certificate,
+      );
 
-      expect(subject).toBeTruthy();
+      expect(subject).toEqual(fixtures.injectToXML.result);
     });
   });
 });
