@@ -1,3 +1,4 @@
+import base64Lib from 'base-64';
 import {
   CreateObjectAsync,
   CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
@@ -6,6 +7,7 @@ import {
 import {
   hexToBase64,
   getTargetCertificate,
+  injectToXML,
 } from './utils';
 
 /**
@@ -16,7 +18,11 @@ import {
  * @param {string} base64 - SignedInfo of signature template encoded to base64
  * @return {promise} signature value and certificate value
  */
-const paramsForDetachedSignature = async (thumbprint, base64) => {
+const paramsForDetachedSignature = async (
+  thumbprint,
+  base64,
+  signatureTemplateAsBase64,
+) => {
   const hashedData = await CreateObjectAsync('CAdESCOM.HashedData');
 
   await hashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
@@ -36,10 +42,13 @@ const paramsForDetachedSignature = async (thumbprint, base64) => {
     certificate,
   );
 
-  return {
-    signature_value: hexToBase64(signatureHex, '', signatureHex.length - 2),
+  const transformedSignatureTemlate = injectToXML(
+    base64Lib.decode(signatureTemplateAsBase64),
+    hexToBase64(signatureHex),
     x509certificate,
-  };
+  );
+
+  return base64Lib.encode(transformedSignatureTemlate);
 };
 
 export default paramsForDetachedSignature;
