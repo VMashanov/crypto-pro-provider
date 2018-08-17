@@ -2,6 +2,7 @@
 
 import {
   convertStringToObj,
+  hexToBase64,
   injectToXML,
 } from '../src/utils';
 
@@ -14,6 +15,17 @@ describe('utils', () => {
       const result = { CN: '1', MN: '2' };
 
       const subject = convertStringToObj(str);
+
+      expect(subject).toEqual(result);
+    });
+  });
+
+  describe('#hexToBase64', () => {
+    test('should return base64 from hex', () => {
+      const hex = 'a660b03bc56d364fce9c482632b9f864';
+      const result = 'ZPi5MiZInM5PNm3FO7Bgpg==';
+
+      const subject = hexToBase64(hex, '', hex.length - 2);
 
       expect(subject).toEqual(result);
     });
