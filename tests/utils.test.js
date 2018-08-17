@@ -25,7 +25,7 @@ describe('utils', () => {
       const hex = 'a660b03bc56d364fce9c482632b9f864';
       const result = 'ZPi5MiZInM5PNm3FO7Bgpg==';
 
-      const subject = hexToBase64(hex, '', hex.length - 2);
+      const subject = hexToBase64(hex);
 
       expect(subject).toEqual(result);
     });
