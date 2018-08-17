@@ -4,10 +4,7 @@ import {
   CADESCOM_BASE64_TO_BINARY,
   CADESCOM_CADES_BES,
 } from './constants';
-import {
-  convertDate,
-  getTargetCertificate,
-} from './utils';
+import { getTargetCertificate } from './utils';
 
 /**
  * @function
@@ -24,7 +21,7 @@ const sign = async (thumbprint, base64) => {
   // Атрибут времени
   const signingTimeAttr = await CreateObjectAsync('CADESCOM.CPAttribute');
   await signingTimeAttr.propset_Name(CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
-  await signingTimeAttr.propset_Value(convertDate(navigator.appName));
+  await signingTimeAttr.propset_Value(new Date());
   const attr = await signer.AuthenticatedAttributes2;
   await attr.Add(signingTimeAttr);
 
