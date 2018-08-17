@@ -1,3 +1,4 @@
+import base64 from 'base-64';
 import {
   CreateObjectAsync,
   CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
@@ -25,7 +26,7 @@ export const convertStringToObj = str =>
  * @param {string} index - start position of substring
  * @return {string} converted base64 string
  */
-export const hexToBase64 = (hex, str, index) => {
+export const hexToBase64 = (hex, str = '', index = hex.length - 2) => {
   if (index >= 0) {
     return hexToBase64(
       hex,
@@ -34,7 +35,7 @@ export const hexToBase64 = (hex, str, index) => {
     );
   }
 
-  return window.btoa(str);
+  return base64.encode(str);
 };
 
 /**
