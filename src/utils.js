@@ -5,17 +5,6 @@ import {
 
 /**
  * @function
- * @name convertDate
- * @description Method returns date
- * @param {string} navigatorName - name of frowser
- * @param {Date} date - date now
- * @return {string} date
- */
-export const convertDate = (navigatorName, date = new Date()) =>
-  (navigatorName === 'Microsoft Internet Explorer' ? date.getVarDate() : date);
-
-/**
- * @function
  * @name convertStringToObj
  * @description Method convert string into object
  * @param {string} str - string for convert
