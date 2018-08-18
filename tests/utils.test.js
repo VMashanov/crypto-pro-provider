@@ -37,12 +37,12 @@ describe('utils', () => {
       const x509certificate = '222';
 
       const subject = injectToSignatureTemplate(
-        fixtures.injectToXML.xml,
+        fixtures.injectToSignatureTemplate.xml,
         signatureValue,
         x509certificate,
       );
 
-      expect(subject).toEqual(fixtures.injectToXML.result);
+      expect(subject).toEqual(fixtures.injectToSignatureTemplate.result);
     });
   });
 });
