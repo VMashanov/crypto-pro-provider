@@ -39,7 +39,7 @@ const collectListOfCertificats =
 const objectifyCertificate = async (certificate) => {
   const isValid = await certificate.IsValid();
 
-  const objectWithCertificate = {
+  return {
     issuerName: convertStringToObj(await certificate.IssuerName),
     serialNumber: await certificate.SerialNumber,
     subjectName: convertStringToObj(await certificate.SubjectName),
@@ -50,8 +50,6 @@ const objectifyCertificate = async (certificate) => {
     isValid: await isValid.Result,
     version: await certificate.Version,
   };
-
-  return objectWithCertificate;
 };
 
 export default certificates;
