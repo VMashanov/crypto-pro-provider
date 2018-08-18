@@ -7,7 +7,7 @@ import {
 import {
   hexToBase64,
   getTargetCertificate,
-  injectToXML,
+  injectToSignatureTemplate,
 } from './utils';
 
 /**
@@ -42,7 +42,7 @@ const paramsForDetachedSignature = async (
     certificate,
   );
 
-  const transformedSignatureTemlate = injectToXML(
+  const transformedSignatureTemlate = injectToSignatureTemplate(
     base64Lib.decode(signatureTemplateAsBase64),
     hexToBase64(signatureHex),
     x509certificate,

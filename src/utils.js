@@ -62,7 +62,7 @@ export const getTargetCertificate = async (thumbprint) => {
 
 /**
  * @function
- * @name injectToXML
+ * @name injectToSignatureTemplate
  * @description Method returns XML with injected signature value
  *              and x509certificate
  * @param {string} xml - detached signature template
@@ -70,7 +70,11 @@ export const getTargetCertificate = async (thumbprint) => {
  * @param {string} x509certificate = value of certificate
  * @return {string} transformed XML
  */
-export const injectToXML = (xml, signatureValue, x509certificate) =>
+export const injectToSignatureTemplate = (
+  xml,
+  signatureValue,
+  x509certificate,
+) =>
   xml.replace(
     /<ds:SignatureValue>(.+)<\/ds:SignatureValue>/,
     `<ds:SignatureValue>${signatureValue}</ds:SignatureValue>`,

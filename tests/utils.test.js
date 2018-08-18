@@ -3,7 +3,7 @@
 import {
   convertStringToObj,
   hexToBase64,
-  injectToXML,
+  injectToSignatureTemplate,
 } from '../src/utils';
 
 import fixtures from './fixtures/utils';
@@ -31,12 +31,12 @@ describe('utils', () => {
     });
   });
 
-  describe('#injectToXML', () => {
+  describe('#injectToSignatureTemplate', () => {
     test('should return transformed xml', () => {
       const signatureValue = '111';
       const x509certificate = '222';
 
-      const subject = injectToXML(
+      const subject = injectToSignatureTemplate(
         fixtures.injectToXML.xml,
         signatureValue,
         x509certificate,
