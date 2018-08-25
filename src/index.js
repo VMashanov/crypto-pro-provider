@@ -10,7 +10,7 @@ import digestValue from './digest_value';
  * @author Vitaly Mashanov <vvmashanov@yandex.ru>
  */
 
-export default {
+export {
   certificates,
   sign,
   paramsForDetachedSignature,
