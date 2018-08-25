@@ -1,5 +1,5 @@
 import {
-  CreateObjectAsync,
+  cadesplugin,
   CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME,
   CADESCOM_BASE64_TO_BINARY,
   CADESCOM_CADES_BES,
@@ -16,10 +16,10 @@ import { getTargetCertificate } from './utils';
  */
 const sign = async (thumbprint, base64) => {
   const certificate = await getTargetCertificate(thumbprint);
-  const signer = await CreateObjectAsync('CAdESCOM.CPSigner');
+  const signer = await cadesplugin.CreateObjectAsync('CAdESCOM.CPSigner');
 
   // Атрибут времени
-  const signingTimeAttr = await CreateObjectAsync('CADESCOM.CPAttribute');
+  const signingTimeAttr = await cadesplugin.CreateObjectAsync('CADESCOM.CPAttribute');
   await signingTimeAttr.propset_Name(CAPICOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME);
   await signingTimeAttr.propset_Value(new Date());
   const attr = await signer.AuthenticatedAttributes2;
@@ -27,7 +27,7 @@ const sign = async (thumbprint, base64) => {
 
   await signer.propset_Certificate(certificate);
 
-  const signedData = await CreateObjectAsync('CAdESCOM.CadesSignedData');
+  const signedData = await cadesplugin.CreateObjectAsync('CAdESCOM.CadesSignedData');
   await signedData.propset_ContentEncoding(CADESCOM_BASE64_TO_BINARY);
   await signedData.propset_Content(base64);
 

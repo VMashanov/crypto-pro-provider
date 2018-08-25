@@ -1,5 +1,5 @@
 import {
-  CreateObjectAsync,
+  cadesplugin,
   CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
   CADESCOM_BASE64_TO_BINARY,
 } from './constants';
@@ -13,7 +13,7 @@ import {
  * @return {string} checksum of data
  */
 const digestValue = async (hashedData) => {
-  const oHashedData = await CreateObjectAsync('CAdESCOM.HashedData');
+  const oHashedData = await cadesplugin.CreateObjectAsync('CAdESCOM.HashedData');
 
   await oHashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
   await oHashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);

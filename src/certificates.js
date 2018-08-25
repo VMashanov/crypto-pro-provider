@@ -1,5 +1,5 @@
 import {
-  CreateObjectAsync,
+  cadesplugin,
   CADESCOM_CURRENT_USER_STORE,
 } from './constants';
 import { convertStringToObj } from './utils';
@@ -11,7 +11,7 @@ import { convertStringToObj } from './utils';
  * @return {array} list of certificates
  */
 const certificates = async () => {
-  const store = await CreateObjectAsync('CAPICOM.Store');
+  const store = await cadesplugin.CreateObjectAsync('CAPICOM.Store');
   await store.Open(CADESCOM_CURRENT_USER_STORE);
   const availableCertificates = await store.Certificates;
   const amountOfCertificates = await availableCertificates.Count;

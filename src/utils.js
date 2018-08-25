@@ -1,6 +1,6 @@
 import base64 from 'base-64';
 import {
-  CreateObjectAsync,
+  cadesplugin,
   CAPICOM_CERTIFICATE_FIND_SHA1_HASH,
 } from './constants';
 
@@ -46,7 +46,7 @@ export const hexToBase64 = (hex, str = '', index = hex.length - 2) => {
  * @return {promise} certificate
  */
 export const getTargetCertificate = async (thumbprint) => {
-  const store = await CreateObjectAsync('CAPICOM.Store');
+  const store = await cadesplugin.CreateObjectAsync('CAPICOM.Store');
   await store.Open();
 
   const certificatesObj = await store.Certificates;
