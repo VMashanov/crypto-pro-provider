@@ -3,6 +3,14 @@ Makefile
 Vagrantfile
 .gitignore
 yarn.lock
-_config.yml
 node_modules
 docs
+example
+src
+tests
+vendor
+.babelrc
+.eslintrc.json
+webpack.config.js
+*.webpack.config.js
+package-lock.json

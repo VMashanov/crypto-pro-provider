@@ -1,5 +1,9 @@
 # Changelog
 
+# [3.0.0] - 2018-08-25
+### Changed
+ - Structure of library
+
 ## [2.0.0] - 2018-04-18
 ### Changed
  - Constant `CADESCOM_CURRENT_USER_STORE` instead `CADESCOM_CONTAINER_STORE`
@@ -55,6 +59,7 @@
 ### Added
  - Documentation;
 
+[3.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.1.1...1.2.0
