@@ -1,12 +1,14 @@
-import CryptoProProvider from '../src/index';
+import {
+  certificates,
+  sign,
+} from '../src/index';
 
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(getCertificates, 1500);
 });
 
 const getCertificates = () =>
-  CryptoProProvider.certificates().then(certificates =>
-    injectListOfCertificates(certificates));
+  certificates().then(certificates => injectListOfCertificates(certificates));
 
 const injectListOfCertificates = (certificates) => {
   const parentElement = document.querySelector('.certificates__list');
@@ -23,15 +25,13 @@ const buildCertificateItem = (certificate) => {
 
   div.className = 'certificates__list__item';
   div.innerHTML = certificate.subjectName.CN;
-  div.onclick = () => sign(certificate.thumbprint);
+  div.onclick = () =>
+    sign(certificate.thumbprint, getDataFromInput()).then((signature) => {
+      document.querySelector('.result').innerHTML = signature;
+    });
 
   return div;
 };
-
-const sign = thumbprint =>
-  CryptoProProvider.sign(thumbprint, getDataFromInput()).then((signature) => {
-    document.querySelector('.result').innerHTML = signature;
-  });
 
 const getDataFromInput = () => {
   const { value } = document.querySelector('.field');
