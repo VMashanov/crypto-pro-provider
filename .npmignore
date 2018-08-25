@@ -5,3 +5,12 @@ Vagrantfile
 yarn.lock
 node_modules
 docs
+example
+src
+tests
+vendor
+.babelrc
+.eslintrc.json
+webpack.config.js
+*.webpack.config.js
+package-lock.json
