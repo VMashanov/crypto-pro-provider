@@ -1,22 +1,22 @@
 # Crypto-pro-provider
-Provides methods for signing xml of requests for SMEV2 and SMEV3
-
-## Documentation
-
-You can read documentation [here](https://vmashanov.github.io/crypto-pro-provider/index.html)!
+The library provides methods for signing xml of requests for SMEV2 and SMEV3
 
 ## Usage
 
 - Import module;
 
 ``` javascript
-import CryptoProProvider from 'crypto-pro-provider';
+import {
+  certificates,
+  sign,
+  paramsForDetachedSignature,
+} from 'crypto-pro-provider';
 ```
 
 - First, you need to select certificate. For it use method `certificates`;
 
 ``` javascript
-  CryptoProProvider.certificates()
+  certificates()
     .then((certificates) => {
       // list of certificates
     })
@@ -32,7 +32,7 @@ Signature for SMEV 2:
 ``` javascript
   // thumbprint - hash of the before selected certificate
   // base64 - message encoded to base64
-  CryptoProProvider.sign(thumbprint, base64)
+  sign(thumbprint, base64)
     .then((signature) => {
       // signed message
     })
@@ -56,19 +56,15 @@ Then canonicalized node send to client-side and sign by `crypto-pro-provider`:
 ``` javascript
   // thumbprint - hash of the before selected certificate
   // base64 - message encoded to base64
-  CryptoProProvider.paramsForDetachedSignature(thumbprint, base64)
-    .then((object) => {
-      // {
-      //   signature_value: <value of signature>,
-      //   x509certificate: <value of certificate>
-      // }
+  // signatureTemplateAsBase64 - signature template encoded to base64
+  paramsForDetachedSignature(thumbprint, base64, signatureTemplateAsBase64)
+    .then((base64) => {
+      // Signed XML as base64
     })
     .catch((error) => {
       // error
     });
 ```
-
-Received params substitute `SignatureValue` and `X509Certificate` nodes in signature template from the first step.
 
 Save signature.
 
@@ -76,4 +72,4 @@ That's all!
 
 ## Changelog
 
-Changelog [here](https://github.com/VMashanov/crypto-pro-provider/blob/develop/CHANGELOG.md)!
+Changelog [here](https://github.com/VMashanov/crypto-pro-provider/blob/master/CHANGELOG.md)!
