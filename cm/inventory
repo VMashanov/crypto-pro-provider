@@ -1,2 +1,0 @@
-[local]
-app-dev ansible_connection=local
