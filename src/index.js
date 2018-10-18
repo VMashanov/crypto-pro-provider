@@ -1,6 +1,6 @@
 import certificates from './certificates';
 import sign from './sign';
-import paramsForDetachedSignature from './params_for_detached_signature';
+import detachedSign from './detached_sign';
 import digestValue from './digest_value';
 
 /**
@@ -13,6 +13,6 @@ import digestValue from './digest_value';
 export {
   certificates,
   sign,
-  paramsForDetachedSignature,
+  detachedSign,
   digestValue,
 };

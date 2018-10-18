@@ -12,13 +12,13 @@ import {
 
 /**
  * @function
- * @name paramsForDetachedSignature
+ * @name detachedSign
  * @description Method calculate value of signature (Async)
  * @param {string} thumbprint - hash of certificate
  * @param {string} base64 - SignedInfo of signature template encoded to base64
  * @return {promise} signature value and certificate value
  */
-const paramsForDetachedSignature = async (
+const detachedSign = async (
   thumbprint,
   base64,
   signatureTemplateAsBase64,
@@ -51,4 +51,4 @@ const paramsForDetachedSignature = async (
   return base64Lib.encode(transformedSignatureTemlate);
 };
 
-export default paramsForDetachedSignature;
+export default detachedSign;
