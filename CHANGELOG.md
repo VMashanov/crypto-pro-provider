@@ -1,5 +1,9 @@
 # Changelog
 
+# [4.0.0] - 2018-10-18
+### Changed
+ - Function `paramsForDetachedSignature` was renamed to `detachedSign`
+
 # [3.0.0] - 2018-08-25
 ### Changed
  - Structure of library
@@ -59,6 +63,7 @@
 ### Added
  - Documentation;
 
+[4.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.2.0...1.3.0
