@@ -9,7 +9,7 @@ The library provides methods for signing xml of requests for SMEV2 and SMEV3
 import {
   certificates,
   sign,
-  paramsForDetachedSignature,
+  detachedSign,
 } from 'crypto-pro-provider';
 ```
 
@@ -57,7 +57,7 @@ Then canonicalized node send to client-side and sign by `crypto-pro-provider`:
   // thumbprint - hash of the before selected certificate
   // base64 - message encoded to base64
   // signatureTemplateAsBase64 - signature template encoded to base64
-  paramsForDetachedSignature(thumbprint, base64, signatureTemplateAsBase64)
+  detachedSign(thumbprint, base64, signatureTemplateAsBase64)
     .then((base64) => {
       // Signed XML as base64
     })
