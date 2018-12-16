@@ -1,5 +1,9 @@
 # Changelog
 
+# [4.0.1] - 2018-12-16
+
+- Didn't changes from version `4.0.0`
+
 # [4.0.0] - 2018-10-18
 ### Changed
  - Function `paramsForDetachedSignature` was renamed to `detachedSign`
