@@ -1,13 +1,14 @@
 import base64Lib from 'base-64';
 import {
   cadesplugin,
-  CADESCOM_HASH_ALGORITHM_CP_GOST_3411,
+  ALGORITHMS,
   CADESCOM_BASE64_TO_BINARY,
 } from './constants';
 import {
   hexToBase64,
   getTargetCertificate,
   injectToSignatureTemplate,
+  extractAlgorithmOfCertificate,
 } from './utils';
 
 /**
@@ -24,14 +25,15 @@ const detachedSign = async (
   signatureTemplateAsBase64,
 ) => {
   const hashedData = await cadesplugin.CreateObjectAsync('CAdESCOM.HashedData');
+  const certificate = await getTargetCertificate(thumbprint);
 
-  await hashedData.propset_Algorithm(CADESCOM_HASH_ALGORITHM_CP_GOST_3411);
+  const algorithm = await extractAlgorithmOfCertificate(certificate);
+
+  await hashedData.propset_Algorithm(ALGORITHMS[algorithm]);
   await hashedData.propset_DataEncoding(CADESCOM_BASE64_TO_BINARY);
   await hashedData.Hash(base64);
 
   const calculatedHashedData = await hashedData;
-
-  const certificate = await getTargetCertificate(thumbprint);
 
   const x509certificate = await certificate.Export(0);
 
