@@ -28,6 +28,19 @@ export const CADESCOM_HASH_ALGORITHM_CP_GOST_3411 = 100;
 
 /**
  * @const
+ * @name ALGORITHMS
+ * @description Algorithm GOST R 34.11-94 = 100
+ *              Algorithm GOST R 34.10-2012 256 bit = 101
+ *              Algorithm GOST R 34.10-2012 512 bit = 102
+ */
+export const ALGORITHMS = {
+  'ГОСТ Р 34.10-2001': 100,
+  'ГОСТ Р 34.10-2012 256 бит': 101,
+  'ГОСТ Р 34.10-2012 512 бит': 102,
+};
+
+/**
+ * @const
  * @name CADESCOM_CURRENT_USER_STORE
  * @description Finding certificates from a storage of current user
  */
