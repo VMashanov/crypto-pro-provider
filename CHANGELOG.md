@@ -1,5 +1,11 @@
 # Changelog
 
+# [4.1.0] - 2019-02-01
+### Added
+
+- In certificate attributes was added algorithm;
+- Selecting signing algorithm by certificate in detached sign method;
+
 # [4.0.1] - 2018-12-16
 
 - Didn't changes from version `4.0.0`
@@ -67,6 +73,8 @@
 ### Added
  - Documentation;
 
+[4.1.0]: https://github.com/VMashanov/crypto-pro-provider/compare/4.0.1...4.1.0
+[4.0.1]: https://github.com/VMashanov/crypto-pro-provider/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/VMashanov/crypto-pro-provider/compare/1.3.0...2.0.0

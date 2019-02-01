@@ -1,6 +1,6 @@
 {
   "name": "crypto-pro-provider",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "The crypto-pro-provider is a library that provides methods to signing files and XML of SMEV3 requests",
   "main": "dist/index.js",
   "repository": "https://github.com/VMashanov/crypto-pro-provider.git",
