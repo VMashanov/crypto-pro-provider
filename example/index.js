@@ -24,7 +24,7 @@ const buildCertificateItem = (certificate) => {
   const div = document.createElement('div');
 
   div.className = 'certificates__list__item';
-  div.innerHTML = certificate.subjectName.CN;
+  div.innerHTML = `${certificate.subjectName.CN} Алгоритм: ${certificate.algorithm}`;
   div.onclick = () =>
     sign(certificate.thumbprint, getDataFromInput()).then((signature) => {
       document.querySelector('.result').innerHTML = signature;

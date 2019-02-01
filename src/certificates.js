@@ -2,7 +2,10 @@ import {
   cadesplugin,
   CADESCOM_CURRENT_USER_STORE,
 } from './constants';
-import { convertStringToObj } from './utils';
+import {
+  convertStringToObj,
+  extractAlgorithmOfCertificate,
+} from './utils';
 
 /**
  * @function
@@ -49,6 +52,7 @@ const objectifyCertificate = async (certificate) => {
     validToDate: await certificate.ValidToDate,
     isValid: await isValid.Result,
     version: await certificate.Version,
+    algorithm: await extractAlgorithmOfCertificate(certificate),
   };
 };
 

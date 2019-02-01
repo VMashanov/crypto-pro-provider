@@ -82,3 +82,17 @@ export const injectToSignatureTemplate = (
     /<ds:X509Certificate>(.+)<\/ds:X509Certificate>/,
     `<ds:X509Certificate>${x509certificate}</ds:X509Certificate>`,
   );
+
+/**
+ * @function
+ * @name extractAlgorithmOfCertificate
+ * @description Method returns algorithm of certificate (Async)
+ * @param {object} certificate - certificate
+ * @return {promise} algorithm
+ */
+export const extractAlgorithmOfCertificate = async (certificate) => {
+  const publicKey = await certificate.PublicKey();
+  const algorithm = await publicKey.Algorithm;
+
+  return algorithm.FriendlyName;
+};
